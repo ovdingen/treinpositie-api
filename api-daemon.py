@@ -37,7 +37,6 @@ while True:
         if type(trein['tns:TreinMaterieelDelen']) is OrderedDict:
             mat = trein['tns:TreinMaterieelDelen']
             row = (mat['tns:MaterieelDeelNummer'], treinNr, mat['tns:Materieelvolgnummer'], mat['tns:Snelheid'], mat['tns:Richting'], mat['tns:Latitude'], mat['tns:Longitude'], mat['tns:Fix'], mat['tns:GpsDatumTijd'])
-            print(row)
             rows.append(row)
         else:
             for mat in trein['tns:TreinMaterieelDelen']:
