@@ -54,3 +54,24 @@ def mat(mat_nr):
     return_dict = {"status": status, "mat": mat}
     db.close()
     return jsonify(return_dict)
+
+@app.route("/v1/total")
+def total():
+    db = sqlite3.connect(config['db'])
+    db.row_factory = sqlite3.Row
+    c = db.cursor()
+
+    mat = {}
+    
+    rows = c.execute("SELECT * FROM posities")
+    status = "OK"
+    for row in rows:
+        row_dict = dict_from_row(row)
+        mat = row_dict
+
+    if mat == {}:
+        status = "NOTFOUND"
+    
+    return_dict = {"status": status, "mat": mat}
+    db.close()
+    return jsonify(return_dict)

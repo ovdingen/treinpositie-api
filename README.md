@@ -1,25 +1,23 @@
-# ovfiets-api
-
-This is a API for the rental bike service offered by the Nederlandse Spoorwegen (Dutch national railway operator, hereafter called "NS").
-
-It's currently in a beta state. Our testing has proven it to be functional, but it isn't yet ready for production because of a few issues that need to be solved regarding i.e. code quality.
+# spoorpositie-api
 
 ## Available functions
 
-`GET /v1/station/<station_code>`
+`GET /v1/trein/<trein_nr>`
 
-Returns OV-fiets availability for a specific train station. `station_code` is a station telegraph code (i.e. AMF, SHL, ASB, UT)
+Returns latest positions for `trein_nr`. Returns one position for every train unit.
 
-`GET /v1/afgiftepunt/<afg_code>`
+`GET /v1/mat/<mat_nr>`
 
-Returns OV-fiets availability for a specific pickup point.
+Returns position for one specific train unit (by material number)
 
 `GET /v1/total`
 
-Returns OV-fiets availability for known all pickup points.
+Returns positions of ALL trains. 
 
 
 ## Setting up
+
+###This is a unchanged copy from the ovfiets-api docs. Watch out for pitfalls when directly copypasting this
 
 (We use gunicorn and systemd in this example. It's up to you to use something else.)
 
