@@ -11,3 +11,4 @@ venv.bak/
 
 # Project-specific stuff go here
 data/db.sqlite
+conf/daemon.json
