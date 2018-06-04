@@ -61,15 +61,15 @@ def total():
     db.row_factory = sqlite3.Row
     c = db.cursor()
 
-    mat = {}
+    mat = []
     
     rows = c.execute("SELECT * FROM posities")
     status = "OK"
     for row in rows:
         row_dict = dict_from_row(row)
-        mat = row_dict
+        mat.append(row_dict)
 
-    if mat == {}:
+    if mat == []:
         status = "NOTFOUND"
     
     return_dict = {"status": status, "mat": mat}
