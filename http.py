@@ -2,6 +2,8 @@ import sys
 import json
 from flask import Flask, jsonify
 import sqlite3
+import collections
+
 
 
 configfile = 'conf/daemon.json'
@@ -73,5 +75,43 @@ def total():
         status = "NOTFOUND"
     
     return_dict = {"status": status, "mat": mat}
+    db.close()
+    return jsonify(return_dict)
+
+@app.route("/v1/total_geojson")
+def total_geojson():
+    db = sqlite3.connect(config['db'])
+    db.row_factory = sqlite3.Row
+    c = db.cursor()
+
+    features = []
+    
+    rows = c.execute("SELECT * FROM posities")
+    
+    for row in rows:
+        row_dict = dict_from_row(row)
+        geometry = collections.OrderedDict()
+        geometry['type'] = "Point"
+        geometry['coordinates'] = [row_dict['lon'], row_dict['lat']]
+
+        properties = collections.OrderedDict()
+        properties['mat_nummer'] = row_dict['mat_nummer']
+        properties['trein_nummer'] = row_dict['trein_nummer']
+        properties['speed'] = row_dict['speed_kmh']
+        properties['heading'] = row_dict['heading']
+
+        feature = collections.OrderedDict()
+        
+        feature['type'] = "Feature"
+        feature['geometry'] = geometry
+        feature['properties'] = properties
+        print(feature)
+        
+        features.append(feature)
+    
+    return_dict = collections.OrderedDict()
+    return_dict['type'] = "FeatureCollection"
+    return_dict['features'] = features
+    
     db.close()
     return jsonify(return_dict)
